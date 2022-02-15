@@ -2,6 +2,7 @@ package io.omarben1.list.generation;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +46,7 @@ public class ListGenerator {
 
 		List<T> list = new ArrayList<T>();
 
-		Constructor<T> con;
+		Constructor<T> con = null;
 		try {
 			con = clazz.getConstructor();
 		} catch (NoSuchMethodException e1) {
@@ -66,7 +67,12 @@ public class ListGenerator {
 		
 		for (int i = 0; i < listLength; i++) {
 			//Create "listLength" time an instance of clazz type
-			obj = con.newInstance();
+			try {
+				obj = con.newInstance();
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException e1) {
+				e1.printStackTrace();
+			}
 			//Set randomized values to all fields that are not ignored
 			for(Field field : notIgnoredFields) {
 				field.setAccessible(true);

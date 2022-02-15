@@ -17,7 +17,10 @@ public class Student {
 	private Integer age;
 
 	@Criterion(data = DataType.EMAIL)
-	private String email;
+	private String personalEmail;
+	
+	@Criterion(regex = "^[A-Z0-9._%+-]{5,6}@ump\\.[A-Z]{2,6}$")
+	private String universityEmail;
 	
 	@Criterion(minDate = "2019-01-10", maxDate = "2021-01-11")
 	private LocalDate registrationDate;
@@ -46,10 +49,37 @@ public class Student {
 		this.age = age;
 	}
 	
+	public String getPersonalEmail() {
+		return personalEmail;
+	}
+
+	public void setPersonalEmail(String personalEmail) {
+		this.personalEmail = personalEmail;
+	}
+
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
+	}
+	
+	public String getUniversityEmail() {
+		return universityEmail;
+	}
+
+	public void setUniversityEmail(String universityEmail) {
+		this.universityEmail = universityEmail;
+	}
+
+	public void setRegistrationDate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
 	@Override
 	public String toString() {
-		return "Student [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", email=" + email
-				+ ", registrationDate=" + registrationDate + "]";
+		return "Student [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", personalEmail="
+				+ personalEmail + ", universityEmail=" + universityEmail + ", registrationDate=" + registrationDate
+				+ "]";
 	}
+
+
 
 }
