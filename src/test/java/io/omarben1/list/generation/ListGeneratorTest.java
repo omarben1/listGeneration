@@ -10,12 +10,14 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
+import io.omarben1.list.generation.beans.Book;
+import io.omarben1.list.generation.beans.Product;
 import io.omarben1.list.generation.beans.Student;
 
 public class ListGeneratorTest {
 	
 	
-	public boolean checkFieldsNotNull(List<Student> students){
+	public boolean checkStudentFieldsNotNull(List<Student> students){
 		
 		return students.stream()
 					   .allMatch(st -> !st.getFirstName().isEmpty() 
@@ -44,15 +46,33 @@ public class ListGeneratorTest {
 	@Test
 	public void annotationTest(){
 		List<Student> students = ListGenerator.getList(Student.class, 10);
-		assert checkFieldsNotNull(students);
+		assert checkStudentFieldsNotNull(students);
 		assert checkGeneratedStringsMatchRegex(students);
 		students.forEach(System.out::println);
 		assert checkGeneratedStringsMatchCustomRegex(students);
 	}
 	
+	public boolean checkProductFieldsNotNull(List<Product> products) {
+		
+		return 	products.stream()
+						.allMatch(product -> !product.getName().isEmpty()
+									   	   && product.getPrice()!=null
+									       && product.getQuantity()!=null);
+	}
 	@Test
 	public void defaultAnnotationValuesTest() {
-		List<Student> students = ListGenerator.getList(Student.class, 10);
-		assert checkFieldsNotNull(students);
+		List<Product> products = ListGenerator.getList(Product.class, 11);
+		assert checkProductFieldsNotNull(products);
+	}
+	
+	public boolean checkIgnoredFiledsAreNull(List<Book> books) {
+		return books.stream()
+					.allMatch(book -> book.getName()==null);
+	}
+	
+	@Test
+	public void ignoreAnnotationTest() {
+		List<Book> books = ListGenerator.getList(Book.class, 5);
+		assert checkIgnoredFiledsAreNull(books);
 	}
 }
