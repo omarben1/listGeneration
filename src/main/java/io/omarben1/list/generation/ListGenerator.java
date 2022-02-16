@@ -40,13 +40,10 @@ public class ListGenerator {
 				return (long) Generators.generateRandomNumber(criterion);
 			})
 			.put(String.class, (Criterion criterion) -> Generators.generateRandomString(criterion) )
-			
 			.put(LocalDate.class, (Criterion criterion) -> Generators.generateRandomDate(criterion))
 			.put(Boolean.class, (Criterion criterion) -> Generators.generateRandomBoolean(criterion))
 			.put(Character.class, (Criterion criterion) -> Generators.generateRandomChar(criterion))
 			.build();
-
-	
 	
 	/**
 	 * @param <T>
@@ -100,10 +97,6 @@ public class ListGenerator {
 		return list;
 	}
 
-	private static Object getRandomValueBasedOnCriterion(Field field) {
-		return getValue(WrapperTypes.wrap(field.getType()), field.getAnnotation(Criterion.class));
-	}
-
 	/**
 	 * check if the type of a given field contained in the map which map each type to 
 	 * its generator function
@@ -114,7 +107,6 @@ public class ListGenerator {
 		return TYPES_TO_GENERATORS.containsKey(WrapperTypes.wrap(field.getType()));
 	}
 	
-
 	/**
 	 * Get the Criterion annotation instance if it's present otherwise return 
 	 * an instance with default values
@@ -126,6 +118,10 @@ public class ListGenerator {
 	private static <T> T getValue(Class<T> clazz, Criterion criterion) {
 		criterion = criterion == null ? Defaults.of(Criterion.class) : criterion;
 		return (T) TYPES_TO_GENERATORS.get(clazz).apply(criterion);
+	}
+	
+	private static Object getRandomValueBasedOnCriterion(Field field) {
+		return getValue(WrapperTypes.wrap(field.getType()), field.getAnnotation(Criterion.class));
 	}
 
 	

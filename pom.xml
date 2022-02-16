@@ -7,10 +7,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>List Generation</name>
-	<description>Generate list of a given type with randomized values based on defined criteria</description>
-	<url></url>
-
 	<licenses>
 		<license>
 			<name>MIT License</name>
