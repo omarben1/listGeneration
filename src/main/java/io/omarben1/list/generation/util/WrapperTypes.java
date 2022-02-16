@@ -4,7 +4,13 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-public class Types {
+/**
+ * WrapperTypes class to get wrapper class for a given primitive type.
+ * 
+ * @author o.benchennouf
+ *
+ */
+public class WrapperTypes {
 	
 	//Map each primitive to its wrapper type
 	private static final Map<Class<?>, Class<?>> PRIMITIVES_TO_WRAPPERS = new ImmutableMap.Builder<Class<?>, Class<?>>()

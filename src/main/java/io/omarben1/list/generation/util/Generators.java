@@ -9,6 +9,13 @@ import com.github.curiousoddman.rgxgen.RgxGen;
 
 import io.omarben1.list.generation.annotation.Criterion;
 
+
+/**
+ * Generators class to get random value of a given type based on certain criterion.
+ * 
+ * @author o.benchennouf
+ *
+ */
 public class Generators {
 	
 	public static LocalDate generateRandomDate(Criterion criterion){

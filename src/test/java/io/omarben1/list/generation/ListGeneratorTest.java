@@ -10,7 +10,7 @@ import io.omarben1.list.generation.beans.Student;
 
 public class ListGeneratorTest {
 	
-	
+
 	public boolean checkStudentFieldsNotNull(List<Student> students){
 		
 		return students.stream()
@@ -42,7 +42,6 @@ public class ListGeneratorTest {
 		List<Student> students = ListGenerator.getList(Student.class, 10);
 		assert checkStudentFieldsNotNull(students);
 		assert checkGeneratedStringsMatchRegex(students);
-		students.forEach(System.out::println);
 		assert checkGeneratedStringsMatchCustomRegex(students);
 	}
 	

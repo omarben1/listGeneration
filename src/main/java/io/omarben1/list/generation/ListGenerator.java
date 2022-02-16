@@ -16,13 +16,18 @@ import io.omarben1.list.generation.annotation.Criterion;
 import io.omarben1.list.generation.annotation.Ignore;
 import io.omarben1.list.generation.util.Defaults;
 import io.omarben1.list.generation.util.Generators;
-import io.omarben1.list.generation.util.Types;
+import io.omarben1.list.generation.util.WrapperTypes;
 
+
+/**
+ * ListGenerator class to generate a list for a given type with randomized values.
+ * 
+ * @author o.benchennouf
+ *
+ */
 public class ListGenerator {
 
-
-
-	//Map each wrapper type to its generator method
+	//Map each wrapper type to its generator Function
 	public static final Map<Class<?>, Function<Criterion, ?>> TYPES_TO_GENERATORS = new ImmutableMap.Builder<Class<?>, Function<Criterion, ?>>()
 			.put(Double.class, (Criterion criterion) -> Generators.generateRandomNumber(criterion))
 			.put(Float.class, (Criterion criterion) -> {
@@ -42,6 +47,13 @@ public class ListGenerator {
 			.build();
 
 	
+	
+	/**
+	 * @param <T>
+	 * @param clazz the type to generate the list for.
+	 * @param listLength the length of the list to be generated.
+	 * @return list of the given type.
+	 */
 	public static <T> List<T> getList(Class<T> clazz, int listLength) {
 
 		List<T> list = new ArrayList<T>();
@@ -89,14 +101,28 @@ public class ListGenerator {
 	}
 
 	private static Object getRandomValueBasedOnCriterion(Field field) {
-		return getValue(Types.wrap(field.getType()), field.getAnnotation(Criterion.class));
+		return getValue(WrapperTypes.wrap(field.getType()), field.getAnnotation(Criterion.class));
 	}
 
+	/**
+	 * check if the type of a given field contained in the map which map each type to 
+	 * its generator function
+	 * @param field the field to be checked
+	 * @return boolean 
+	 */
 	private static boolean isFieldTypeHasGenerator(Field field) {
-		return TYPES_TO_GENERATORS.containsKey(Types.wrap(field.getType()));
+		return TYPES_TO_GENERATORS.containsKey(WrapperTypes.wrap(field.getType()));
 	}
 	
-	//Get the Criterion annotation instance if it's present otherwise return an instance with default values
+
+	/**
+	 * Get the Criterion annotation instance if it's present otherwise return 
+	 * an instance with default values
+	 * @param <T>
+	 * @param clazz
+	 * @param criterion
+	 * @return
+	 */
 	private static <T> T getValue(Class<T> clazz, Criterion criterion) {
 		criterion = criterion == null ? Defaults.of(Criterion.class) : criterion;
 		return (T) TYPES_TO_GENERATORS.get(clazz).apply(criterion);
