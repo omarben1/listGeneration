@@ -62,11 +62,11 @@ public class ListGenerator {
 		//and their types have a generator method in the map of generators
 		List<Field> notIgnoredFields = Arrays.asList(allFields).stream()
 				.filter(field -> !field.isAnnotationPresent(Ignore.class))
-				.filter(field -> TYPES_TO_GENERATORS.containsKey(Types.wrap(field.getType())))
+				.filter(field -> isFieldTypeHasGenerator(field))
 				.collect(Collectors.toList());
 		
 		for (int i = 0; i < listLength; i++) {
-			//Create "listLength" time an instance of clazz type
+			//Create "listLength" times an instance of clazz type
 			try {
 				obj = con.newInstance();
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -77,7 +77,7 @@ public class ListGenerator {
 			for(Field field : notIgnoredFields) {
 				field.setAccessible(true);
 				try {
-					field.set(obj, getValue(Types.wrap(field.getType()), field.getAnnotation(Criterion.class)));
+					field.set(obj, getRandomValueBasedOnCriterion(field));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,6 +86,14 @@ public class ListGenerator {
 		}
 
 		return list;
+	}
+
+	private static Object getRandomValueBasedOnCriterion(Field field) {
+		return getValue(Types.wrap(field.getType()), field.getAnnotation(Criterion.class));
+	}
+
+	private static boolean isFieldTypeHasGenerator(Field field) {
+		return TYPES_TO_GENERATORS.containsKey(Types.wrap(field.getType()));
 	}
 	
 	//Get the Criterion annotation instance if it's present otherwise return an instance with default values
