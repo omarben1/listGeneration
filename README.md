@@ -17,7 +17,7 @@ If you use [Maven](http://maven.apache.org) you can include the library to your 
 ```
 
  ### Sample usage : 
- Assume that we have a Student class, we want the firstName and the lastName be two strings that contain only alphabetic characters, the email be a string that has a valid email format, and the age be between 18 and 25 : 
+ Assume that we have a Student class, we want a list of Stundent instances which instance has the firstName and the lastName are two strings that contain only alphabetic characters, the email is a string that has a valid email format, and the age is an integer between 18 and 25 : 
  
  ```JAVA
  public class Student {
