@@ -43,7 +43,7 @@ Let's now generate a list of Student with a size of 5 :
  
  public class Main {
 	 public static void main(String[] args) {
-         List<Product> students = ListGenerator.getList(Student.class, 5);  
+         List<Student> students = ListGenerator.getList(Student.class, 5);  
          students.forEach(System.out::println);
      }
  }
